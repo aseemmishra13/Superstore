@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar,Nav,Container, NavDropdown } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +15,9 @@ const Header = () => {
     dispatch(logout())
     
   }
+  // useEffect((userInfo)=>{
+
+  // },[userInfo])
     return (
       
         <header>
