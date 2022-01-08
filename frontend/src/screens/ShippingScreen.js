@@ -5,13 +5,14 @@ import { Link, useParams ,useNavigate} from 'react-router-dom'
 import { Row,Col,ListGroup,Image,Form,Button,Card } from 'react-bootstrap'
 import { addToCart,removeFromCart } from '../actions/cartActions'
 import { useLocation } from 'react-router-dom'
-import { orderConfirm } from '../actions/orderActions'
+import { orderConfirm, orderDetails, } from '../actions/orderActions'
 
 const ShippingScreen = () => {
   const cart = useSelector(state=>state.cart)
   const {cartItems}=cart
+  let a= cartItems.reduce((acc,cur)=>acc + cur.qty*cur.price,0).toFixed(2)
     const [formData, setFormData] = useState({address:'',city:'',prod:[],totalprice:''})
-    const {address,city,name,image,price,totalprice}=formData
+    const {address,city,prod}=formData
     
     const {id}= useParams()
     const location = useLocation()
@@ -23,14 +24,15 @@ const ShippingScreen = () => {
     
 
     useEffect(()=>{
-      
+      setFormData({...formData,prod:cartItems,totalprice:Number(a)})
         if(productId){
             dispatch(addToCart(productId,qty))
             
         }
-    },[dispatch,productId,qty],formData)
+    },[dispatch,productId,qty,cartItems])
 
     const removeFromCartHandler =(id)=>{
+      setFormData({...formData,prod:cartItems,totalprice:Number(a)})
         dispatch(removeFromCart(id))
     }
 
@@ -38,9 +40,13 @@ const ShippingScreen = () => {
 
     const checkoutHandler=()=>{
        // navigate('/login?redirect=checkout')
-        setFormData({...formData,prod:cartItems})
-        console.log(formData)
+       
+       
+        if(prod)
+        {console.log(formData)
         dispatch(orderConfirm(formData))
+        dispatch(orderDetails())
+      }
     }
      
     return (

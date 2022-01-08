@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getProfile, UpdateUserProfile } from '../actions/userAction'
+import { orderDetails } from '../actions/orderActions'
 
 const ProfileUser = () => {
     const [email,setEmail]=useState('')
@@ -17,7 +18,9 @@ const ProfileUser = () => {
    
     const {profile,error,loading} = userProfile
     const userLogin = useSelector(state=>state.userLogin)
-   
+    // const order=useSelector(state=>state.order)
+    // const {orders}=order
+    
     const {userInfo} = userLogin
     const userUpdateProfile = useSelector(state=>state.userUpdateProfile)
    
@@ -25,7 +28,9 @@ const ProfileUser = () => {
  
     const navigate=useNavigate()
     const dispatch =useDispatch()
+    
     useEffect(()=>{
+        dispatch(orderDetails())
 if(!userInfo){
     navigate('/login')
 
@@ -39,8 +44,11 @@ else{
         setEmail(profile.email)
     }
 }
-    },[navigate,profile])
-
+    },[navigate,profile,dispatch])
+    const order = useSelector(state=>state.order)
+    const {allorders} = order
+    // const {orderItems} = allorders
+   
     const submitHandler=(e)=>{
         e.preventDefault()
         if(password !== confirmpassword){
@@ -82,6 +90,13 @@ else{
             </Col>
             <Col md={9}>
                 <h2>My Orders</h2>
+                {allorders.map((item)=>(
+                    <div key ={item._id}>
+                    {item.orderItems.map((items)=>(<h4 key = {items._id}>{items.name} ,QTY: {items.qty} price {items.price*items.qty}</h4>))}
+                    <h4 > Total Price :{item.totalprice}</h4>
+                    </div>
+                ))}
+               
             </Col>
             
         </Row>

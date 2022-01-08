@@ -16,10 +16,10 @@ userProfile:getUserProfile,
 userUpdateProfile:userUpdateProfileReducer,
 order:orderReducer
 })
-
+const orderItemsfromStorage=localStorage.getItem('orderItems')?JSON.parse(localStorage.getItem('orderItems')):[]
 const cartItemsfromStorage=localStorage.getItem('cartItems')?JSON.parse(localStorage.getItem('cartItems')):[]
 const userInfofromStorage=localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null
-const initialState={cart:{cartItems:cartItemsfromStorage},userLogin:{userInfo:userInfofromStorage}}
+const initialState={cart:{cartItems:cartItemsfromStorage},userLogin:{userInfo:userInfofromStorage},order:{allorders:orderItemsfromStorage}}
 const middleware = [thunk]
 
 const store = createStore(reducer,initialState,composeWithDevTools(applyMiddleware(...middleware)))

@@ -20,4 +20,9 @@ const orderProduct=asyncHandler(async(req,res)=>{
 
 })
 
-export {orderProduct}
+const getOrder=asyncHandler(async(req,res)=>{
+    const order= await Orders.find({name:req.user._id})
+    res.json(order)
+})
+
+export {orderProduct,getOrder}

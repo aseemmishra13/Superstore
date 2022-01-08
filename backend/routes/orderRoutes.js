@@ -1,9 +1,10 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
-import { orderProduct } from "../controllers/orderController.js";
+import { getOrder, orderProduct } from "../controllers/orderController.js";
 const router = express.Router()
 
-router.route('/').put(protect,orderProduct)
+router.route('/').post(protect,orderProduct)
+router.route('/').get(protect,getOrder)
 
 
 
