@@ -10,6 +10,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileUser from "./screens/ProfileUser";
 import ShippingScreen from "./screens/ShippingScreen";
+import OrderScreen from "./screens/OrderScreen";
 function App() {
   return (
     <Router>
@@ -25,6 +26,7 @@ function App() {
           <Route path ='/register' element={<RegisterScreen />}/>
           <Route path ='/profile' element={<ProfileUser />}/>
           <Route path ='/login/shipping' element={<ShippingScreen />}/>
+          <Route path = '/orders/:id' element={<OrderScreen/>}/>
         </Routes>
       
 

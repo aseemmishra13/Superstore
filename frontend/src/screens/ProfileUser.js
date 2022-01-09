@@ -1,9 +1,9 @@
 import React,{useEffect,useState} from 'react'
-import { Form,Button ,Row,Col} from 'react-bootstrap'
+import { Form,Button ,Row,Col, Card} from 'react-bootstrap'
 
 import { useDispatch,useSelector } from 'react-redux'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate ,Link} from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getProfile, UpdateUserProfile } from '../actions/userAction'
@@ -91,10 +91,11 @@ else{
             <Col md={9}>
                 <h2>My Orders</h2>
                 {allorders.map((item)=>(
-                    <div key ={item._id}>
-                    {item.orderItems.map((items)=>(<h4 key = {items._id}>{items.name} ,QTY: {items.qty} price {items.price*items.qty}</h4>))}
-                    <h4 > Total Price :{item.totalprice}</h4>
-                    </div>
+                    <Card key ={item._id} className='my-3 p-3 rounded'>
+                        <Card.Title><Link to={`/orders/${item._id}`}>Order : {item._id}</Link></Card.Title>
+                    {item.orderItems.map((items)=>(<Card.Text key = {items._id}>{items.name} QTY: {items.qty} price: $ {items.price*items.qty}</Card.Text>))}
+                    <h4 > Total Price : ${item.totalprice}</h4>
+                    </Card>
                 ))}
                
             </Col>
