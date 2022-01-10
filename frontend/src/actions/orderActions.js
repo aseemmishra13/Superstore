@@ -59,6 +59,7 @@ export const listOrderDetails=(id)=>async (dispatch,getState)=>{
         }
         const {data} = await axios.get(`/api/orders/${id}`,config)
         dispatch({type: GET_ORDER, payload: data})
+        localStorage.setItem('orderItem',JSON.stringify(getState().getorder.singleorder))
     } catch (error) {
         dispatch({type:ORDER_UPDATE_FAIL,payload:error.response && error.response.data.message ? error.response.data.message:error.message})
     }

@@ -3,15 +3,16 @@ import { useDispatch,useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { Link, useParams ,useNavigate} from 'react-router-dom'
 import { Row,Col,ListGroup,Image,Form,Button,Card } from 'react-bootstrap'
-import { addToCart,removeFromCart } from '../actions/cartActions'
+import { addToCart,removeFromCart, saveShippingAddress } from '../actions/cartActions'
 import { useLocation } from 'react-router-dom'
 import { orderConfirm, orderDetails, } from '../actions/orderActions'
+import Checkoutsteps from '../components/Checkoutsteps'
 
 const ShippingScreen = () => {
   const cart = useSelector(state=>state.cart)
-  const {cartItems}=cart
+  const {cartItems,shippingAddress}=cart
   let a= cartItems.reduce((acc,cur)=>acc + cur.qty*cur.price,0).toFixed(2)
-    const [formData, setFormData] = useState({address:'',city:'',prod:[],totalprice:''})
+    const [formData, setFormData] = useState({address:shippingAddress.address,city:shippingAddress.city,prod:[],totalprice:''})
     const {address,city,prod}=formData
     
     const {id}= useParams()
@@ -40,18 +41,20 @@ const ShippingScreen = () => {
 
     const checkoutHandler=()=>{
        // navigate('/login?redirect=checkout')
-       
+       dispatch(saveShippingAddress({address,city}))
+       navigate('/payment')
        
         if(prod)
         {console.log(formData)
-        dispatch(orderConfirm(formData))
-        dispatch(orderDetails())
+        // dispatch(orderConfirm(formData))
+        // dispatch(orderDetails())
       }
     }
      
     return (
         <Row>
            <Col md={6}>
+             <Checkoutsteps step1 step2/>
         <h1>Address details</h1>
         {cartItems.length === 0 ? (
           <Message>

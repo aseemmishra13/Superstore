@@ -5,13 +5,16 @@ import Product from '../models/productModel.js'
 
 const orderProduct=asyncHandler(async(req,res)=>{
 
-    const {address,city,prod,totalprice}=req.body
+    const {address,city,prod,totalprice,taxprice,shippingprice,paymentMethod}=req.body
     
     
     const orderFields={}
     orderFields.name=req.user._id
     orderFields.shippingAddress={address,city}
     orderFields.totalprice  =totalprice
+    orderFields.taxprice  =taxprice
+    orderFields.shippingprice  =shippingprice
+    orderFields.paymentMethod  =paymentMethod
     orderFields.orderItems=(prod)
    const order = new Orders(orderFields)
    

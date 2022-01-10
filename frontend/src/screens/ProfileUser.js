@@ -7,9 +7,11 @@ import { useNavigate ,Link} from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getProfile, UpdateUserProfile } from '../actions/userAction'
-import { orderDetails } from '../actions/orderActions'
+import { listOrderDetails, orderDetails } from '../actions/orderActions'
 
 const ProfileUser = () => {
+    const dispatch =useDispatch()
+    const navigate=useNavigate()
     const [email,setEmail]=useState('')
     const [name,setName]=useState('')
     const [password,setPassword]=useState('')
@@ -25,9 +27,10 @@ const ProfileUser = () => {
     const userUpdateProfile = useSelector(state=>state.userUpdateProfile)
    
     const {success} = userUpdateProfile
- 
-    const navigate=useNavigate()
-    const dispatch =useDispatch()
+    const order = useSelector(state=>state.order)
+    const {allorders} = order
+    
+   
     
     useEffect(()=>{
         dispatch(orderDetails())
@@ -45,8 +48,7 @@ else{
     }
 }
     },[navigate,profile,dispatch])
-    const order = useSelector(state=>state.order)
-    const {allorders} = order
+    
     // const {orderItems} = allorders
    
     const submitHandler=(e)=>{
@@ -59,6 +61,12 @@ else{
 
 
         }
+    }
+    const onclickhandler=(id)=>{
+        
+        dispatch(listOrderDetails(id))
+        
+        
     }
     return (
         <Row>
@@ -92,7 +100,7 @@ else{
                 <h2>My Orders</h2>
                 {allorders.map((item)=>(
                     <Card key ={item._id} className='my-3 p-3 rounded'>
-                        <Card.Title><Link to={`/orders/${item._id}`}>Order : {item._id}</Link></Card.Title>
+                        <Card.Title> <Link key = {item._id} to={`/orders/${item._id}`} >Order : {item._id}</Link></Card.Title>
                     {item.orderItems.map((items)=>(<Card.Text key = {items._id}>{items.name} QTY: {items.qty} price: $ {items.price*items.qty}</Card.Text>))}
                     <h4 > Total Price : ${item.totalprice}</h4>
                     </Card>

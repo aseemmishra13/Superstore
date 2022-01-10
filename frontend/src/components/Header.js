@@ -3,8 +3,10 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar,Nav,Container, NavDropdown } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userAction'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  const navigate = useNavigate()
   const cart = useSelector(state=>state.cart)
   const userLogin = useSelector(state=>state.userLogin)
   const dispatch = useDispatch()
@@ -13,6 +15,7 @@ const Header = () => {
   let a=cartItems.length
   const logoutHandler=()=>{
     dispatch(logout())
+    navigate('/')
     
   }
   // useEffect((userInfo)=>{
