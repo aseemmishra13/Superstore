@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_ORDER, GET_ORDER_DETAILS, ORDER_UPDATE_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS } from "../types/types"
+import { GET_ORDER, GET_ORDER_DETAILS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_UPDATE_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS } from "../types/types"
 
 
 export const orderConfirm=(orderData)=>async (dispatch,getState)=>{
@@ -62,6 +62,26 @@ export const listOrderDetails=(id)=>async (dispatch,getState)=>{
         localStorage.setItem('orderItem',JSON.stringify(getState().getorder.singleorder))
     } catch (error) {
         dispatch({type:ORDER_UPDATE_FAIL,payload:error.response && error.response.data.message ? error.response.data.message:error.message})
+    }
+
+
+}
+
+export const payOrder=(orderId,paymentResult)=>async (dispatch,getState)=>{
+    try {
+        dispatch({type: ORDER_PAY_REQUEST})
+        const {userLogin:{userInfo}}=getState()
+        const config = {
+            headers:{
+                    'Content-Type':'application/json',
+                    Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        const {data} = await axios.put(`/api/orders/${orderId}/pay`,paymentResult,config)
+        dispatch({type: ORDER_PAY_SUCCESS, payload: data})
+        localStorage.setItem('orderItem',JSON.stringify(getState().getorder.singleorder))
+    } catch (error) {
+        dispatch({type:ORDER_PAY_FAIL,payload:error.response && error.response.data.message ? error.response.data.message:error.message})
     }
 
 
