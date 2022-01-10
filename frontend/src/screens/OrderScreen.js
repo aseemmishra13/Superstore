@@ -12,6 +12,8 @@ const OrderScreen = () => {
     const navigate=useNavigate()
 
     const singleorder=useSelector(state=>state.getorder.singleorder)
+    const userLogin = useSelector(state=>state.userLogin)
+    const {userInfo} = userLogin
    // const {singleorder}=orderdetails
    singleorder.itemsprice=singleorder.orderItems.reduce((acc,item)=>acc+item.qty*item.price,0).toFixed(2)
 
@@ -41,16 +43,33 @@ const OrderScreen = () => {
         //     </Card>
         // </Col>
         <Row>
+            
         <Col md={8}>
-        <Button type ='button' className='btn btn-light my-3' onClick={Handler}  >Go Back</Button>
+        <Button type ='button' className='btn btn-light' onClick={Handler}  >Go Back</Button>
             <ListGroup variant='flush'>
+            
+                <h3>ORDER: {singleorder._id}</h3>
                 <ListGroup.Item>
                     <h2>Shipping</h2>
+                    <p><strong>Name:</strong> {singleorder.name.name}</p>
+                    <p><strong>Email:</strong> {singleorder.name.email}</p>
                     <p><strong>Address:</strong> {singleorder.shippingAddress.address},{singleorder.shippingAddress.city}</p>
+                    {singleorder.isDelivered ? (
+                <Message variant='success'>
+                  Delivered on {singleorder.deliveredAt}
+                </Message>
+              ) : (
+                <Message variant='danger'>Not Delivered</Message>
+              )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <h2>Payment Method</h2>
                     <p><strong>Method:</strong> {singleorder.paymentMethod}</p>
+                    {singleorder.isPaid ? (
+                <Message variant='success'>Paid on {singleorder.paidAt}</Message>
+              ) : (
+                <Message variant='danger'>Not Paid</Message>
+              )}
                 </ListGroup.Item>
                 {/* <ListGroup.Item>
                     {error&&<Message variant='danger'>{error}</Message>}
