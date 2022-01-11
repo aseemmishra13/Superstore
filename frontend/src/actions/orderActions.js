@@ -28,6 +28,7 @@ export const orderConfirm=(orderData)=>async (dispatch,getState)=>{
 
 export const orderDetails=()=>async(dispatch,getState)=>{
     try {
+      //  dispatch({type: ORDER_UPDATE_REQUEST})
         const {userLogin:{userInfo}}=getState()
         const config = {
             headers:{

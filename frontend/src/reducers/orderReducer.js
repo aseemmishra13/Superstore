@@ -1,4 +1,4 @@
-import { GET_ORDER, GET_ORDER_DETAILS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_UPDATE_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS } from "../types/types"
+import { GET_ORDER, GET_ORDER_DETAILS, GET_ORDER_RESET, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_UPDATE_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS } from "../types/types"
 
 
 export const orderReducer=(state={},action)=>{
@@ -28,6 +28,10 @@ export const getorderReducer=(state={singleorder:{}},action)=>{
           
         case GET_ORDER:
             return{...state,loading:false,singleorder:payload}       
+        case GET_ORDER_RESET:
+            return{
+                singleorder:{}
+            }    
         case ORDER_UPDATE_FAIL:
             return {loading:false,error:payload}
             
