@@ -99,7 +99,13 @@ else{
             </Col>
             <Col md={9}>
                 <h2>My Orders</h2>
-                
+                {/* {allorders.map((item)=>(
+                    <Card key ={item._id} className='my-3 p-3 rounded'>
+                        <Card.Title> <Link key = {item._id} to={`/orders/${item._id}`} >Order : {item._id}</Link></Card.Title>
+                    {item.orderItems.map((items)=>(<Card.Text key = {items._id}>{items.name} QTY: {items.qty} price: $ {items.price*items.qty}</Card.Text>))}
+                    <h4 > Total Price : ${item.totalprice}</h4>
+                    </Card>
+                ))} */}
                <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
