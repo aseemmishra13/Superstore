@@ -61,7 +61,7 @@ const ProductEditScreen = () => {
           }
     },[dispatch,successUpdate,id, product, successUpdate])
     const uploadFileHandler=async(e)=>{
-        const file =e.target.files
+        const file =e.target.files[0]
         const formData = new FormData()
         formData.append('image', file)
         setUploading(true)
@@ -146,9 +146,9 @@ const ProductEditScreen = () => {
                   ></Form.Control>
                   <Form.Control
                     type='file'
-                    id='image-file'
+                   
                     label='Choose File'
-                    custom
+                    
                     onChange={uploadFileHandler}
                   ></Form.Control>
                   {uploading && <Loader />}

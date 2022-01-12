@@ -14,6 +14,8 @@ app.use(express.json())
 dotenv.config()
 
 connectDB()
+const __dirname=path.resolve()
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
 
 app.get('/',(req,res)=>{
     res.send('api is running')
@@ -26,8 +28,7 @@ app.use('/api/upload',uploadRoutes)
 app.use(notFound)
 app.use(errorHandler)
 
-const __dirname=path.resolve()
-app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT,console.log(`Server running on port ${PORT}`))
