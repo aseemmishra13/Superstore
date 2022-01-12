@@ -27,6 +27,10 @@ const getOrder=asyncHandler(async(req,res)=>{
     const order= await Orders.find({name:req.user._id})
     res.json(order)
 })
+const getAllOrder=asyncHandler(async(req,res)=>{
+    const order= await Orders.find({}).populate('name','id name')
+    res.json(order)
+})
 
 const getOrderById=asyncHandler(async(req,res)=>{
     const order = await Orders.findById(req.params.id).populate('name','name email')
@@ -60,5 +64,20 @@ else{
 }
 
 })
+const UpdateOrderToDelivered=asyncHandler(async(req,res)=>{
+    const order = await Orders.findById(req.params.id)
+    if (order){
+        order.isDelivered=true
+        order.deliveredAt=Date.now()
+       
+        const updatedOrder=await order.save()
+    res.json(updatedOrder)
+}
+else{
+    res.status(404)
+    throw new Error('Product not found')
+}
 
-export {orderProduct,getOrder,getOrderById,UpdateOrderToPaid}
+})
+
+export {orderProduct,getOrder,getOrderById,UpdateOrderToPaid,getAllOrder,UpdateOrderToDelivered}

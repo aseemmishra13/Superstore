@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { Link, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import { listOrderDetails, orderDetails } from '../actions/orderActions'
+import { deliverOrder, listOrderDetails, orderDetails } from '../actions/orderActions'
 import Message from '../components/Message'
 
 const OrderScreen = () => {
@@ -12,8 +13,10 @@ const OrderScreen = () => {
     const navigate=useNavigate()
 
     const singleorder=useSelector(state=>state.getorder.singleorder)
-    const userLogin = useSelector(state=>state.userLogin)
-    const {userInfo} = userLogin
+   const orderDelivered=useSelector(state=>state.orderDelivered)
+   const {loading:loadingDelivered,success:successDelivered}=orderDelivered
+    const userLogin=useSelector(state=>state.userLogin)
+    const {userInfo}=userLogin
    // const {singleorder}=orderdetails
    singleorder.itemsprice=singleorder.orderItems.reduce((acc,item)=>acc+item.qty*item.price,0).toFixed(2)
 
@@ -26,11 +29,22 @@ const OrderScreen = () => {
    
     },[dispatch,id])
 //    typeof(singleorder) ==='undefined' ? console.log(singleorder) : (dispatch(listOrderDetails(id))
-// )    
+// )  
+    
     console.log(singleorder)
     const Handler=()=>{
         
-        navigate('/profile')
+        
+        if(userInfo && userInfo.isAdmin)
+        {navigate('/admin/orderList')}
+        else{
+            navigate('/profile')
+        }
+    }
+    const delivered=(id)=>{dispatch(deliverOrder(id))
+        dispatch(listOrderDetails(id))
+        dispatch(orderDetails())
+        
     }
     return (
         // <Col md={8} >
@@ -124,6 +138,7 @@ const OrderScreen = () => {
                         <Col>${singleorder.totalprice}</Col>
                     </Row>
                 </ListGroup.Item>
+                {userInfo.isAdmin&& !singleorder.isDelivered&&<Button type ='button' className='btn btn-light' onClick={()=>delivered(singleorder)}>Mark it as Delivered</Button>}
                
             </ListGroup>
             </Card>
