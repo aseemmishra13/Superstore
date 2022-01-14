@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { login } from '../actions/userAction'
 import FormContainer from '../components/FormContainer'
+import { Helmet } from 'react-helmet'
 
 const LoginScreen = () => {
     const [email,setEmail]=useState('')
@@ -29,6 +30,10 @@ const LoginScreen = () => {
 
     return (
         <FormContainer>
+            <Helmet>
+            <title>Welcome to Superstore | Login </title>
+            
+        </Helmet>
             <h1>Sign In</h1>
             {error && <Message variant='danger'>{error}</Message>}
             {loading&&<Loader />}

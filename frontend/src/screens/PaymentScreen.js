@@ -7,6 +7,7 @@ import { addToCart,removeFromCart, savePaymentMethod } from '../actions/cartActi
 import { useLocation } from 'react-router-dom'
 import { orderConfirm, orderDetails, } from '../actions/orderActions'
 import Checkoutsteps from '../components/Checkoutsteps'
+import { Helmet } from 'react-helmet'
 
 
 const PaymentScreen = () => {
@@ -20,7 +21,7 @@ const PaymentScreen = () => {
   
     // const [formData, setFormData] = useState({address:'',city:'',prod:[],totalprice:''})
     // const {address,city,prod}=formData
-    const [paymentMethod,setPaymentMethod]=useState('Paypal')
+    const [paymentMethod,setPaymentMethod]=useState('COD')
     
     const {id}= useParams()
     const location = useLocation()
@@ -53,6 +54,10 @@ const PaymentScreen = () => {
      
     return (
         <Row>
+            <Helmet>
+            <title>Welcome to Superstore | Payment </title>
+            
+        </Helmet>
            <Col md={6}>
            <Checkoutsteps step1 step2 step3/>
           <Form onSubmit={submitHandler}>
@@ -60,7 +65,7 @@ const PaymentScreen = () => {
                   <Form.Label as='legend'>Select Method</Form.Label>
            
               <Col>
-                    <Form.Check type = 'radio' label='Paypal or Credit Card' id='Paypal' name='paymentMethod' value = 'Paypal' checked onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
+                    <Form.Check type = 'radio' label='Cash on Delivery' id='COD' name='paymentMethod' value = 'COD' checked onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
                     <Form.Check type = 'radio' label='Paytm' id='Paytm' name='paymentMethod' value = 'Paytm'  onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
               
               </Col>

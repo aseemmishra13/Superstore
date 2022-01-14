@@ -6,6 +6,7 @@ import { register } from '../actions/userAction'
 import { useNavigate } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { Helmet } from 'react-helmet'
 
 
 const RegisterScreen = () => {
@@ -37,6 +38,10 @@ if(userInfo){
     }
     return (
         <FormContainer>
+             <Helmet>
+            <title>Welcome to Superstore | Register </title>
+            
+        </Helmet>
             <h1>Register</h1>
             {error && <Message variant='danger'>{error}</Message>}
             {loading&&<Loader />}

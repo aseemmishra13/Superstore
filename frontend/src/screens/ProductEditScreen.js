@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { PRODUCT_UPDATE_RESET, USER_UPDATE_RESET } from '../types/types'
 import axios from 'axios'
+import { Helmet } from 'react-helmet'
 
 
 const ProductEditScreen = () => {
@@ -103,6 +104,10 @@ const ProductEditScreen = () => {
     
       return (
         <>
+        <Helmet>
+            <title>Welcome to Superstore | Product </title>
+            
+        </Helmet>
           <Link to='/admin/productList' className='btn btn-light my-3'>
             Go Back
           </Link>

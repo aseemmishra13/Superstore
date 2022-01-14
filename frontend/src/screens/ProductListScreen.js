@@ -7,27 +7,30 @@ import { useNavigate } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { PRODUCT_CREATE_RESET } from '../types/types'
+import Paginate from '../components/Paginate'
+import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 const ProductListScreen = () => {
     const dispatch = useDispatch()
     const productList=useSelector(state=>state.productList)
-    const {loading,error,products}=productList
+    const {loading,error,products,pages,page}=productList
     const productDelete=useSelector(state=>state.productDelete)
     const {loading:loadingDelete,error:errorDelete,success:successDelete}=productDelete
     const productCreate=useSelector(state=>state.productCreate)
     const {loading:loadingCreate,error:errorCreate,success:successCreate,product:createdProduct}=productCreate
     const userLogin=useSelector(state=>state.userLogin)
     const {userInfo}=userLogin
-   
+    const {pageNumber}=useParams() || 1
     const navigate = useNavigate()
     useEffect(()=>{
 
         if(userInfo && userInfo.isAdmin)
-        {dispatch(listProduct())}
+        {dispatch(listProduct('',pageNumber))}
         else{
             navigate('/')
         }
-    },[dispatch,userInfo,successDelete,successCreate,createProduct])
+    },[dispatch,userInfo,successDelete,successCreate,createProduct,pageNumber])
     const deleteHandler=(id)=>{
         if(window.confirm('Are you sure')){
             dispatch(deleteProduct(id))
@@ -40,6 +43,10 @@ const ProductListScreen = () => {
     }
     return (
         <>
+         <Helmet>
+            <title>Welcome to Superstore | Product </title>
+            
+        </Helmet>
         <Row className='align-items-center'>
             <Col>
                 <h1>Products</h1>
@@ -53,7 +60,7 @@ const ProductListScreen = () => {
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
             {loadingCreate&&<Loader/>}
             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-            {loading?<Loader/>:error?<Message variant='danger'>{error}</Message>:(
+            {loading?<Loader/>:error?<Message variant='danger'>{error}</Message>:(<>
             <Table striped bordered hover responsive className='table-sm'>
                 <thead>
                     <tr>
@@ -77,7 +84,7 @@ const ProductListScreen = () => {
                         </tr>
                     ))}
                 </tbody>
-            </Table>
+            </Table><Paginate pages={pages} page={page} isAdmin={true}/> </>
         )}
             
         </>

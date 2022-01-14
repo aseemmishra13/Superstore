@@ -9,6 +9,7 @@ import Loader from '../components/Loader'
 import { getProfile, UpdateUserProfile } from '../actions/userAction'
 import { listOrderDetails, orderDetails } from '../actions/orderActions'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Helmet } from 'react-helmet'
 
 const ProfileUser = () => {
     const dispatch =useDispatch()
@@ -71,6 +72,10 @@ else{
     }
     return (
         <Row>
+           <Helmet>
+            <title>Welcome to Superstore | Profile </title>
+            
+        </Helmet>
             <Col md={3}>
             <h2>User Profile</h2>
             {error && <Message variant='danger'>{error}</Message>}

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { deliverOrder, listOrderDetails, orderDetails } from '../actions/orderActions'
 import Message from '../components/Message'
+import { ORDER_DELIVER_RESET } from '../types/types'
 
 const OrderScreen = () => {
     const dispatch =useDispatch()
@@ -21,13 +23,17 @@ const OrderScreen = () => {
    singleorder.itemsprice=singleorder.orderItems.reduce((acc,item)=>acc+item.qty*item.price,0).toFixed(2)
 
     useEffect(()=>{
-        if(id){
-        dispatch(listOrderDetails(id))
-        dispatch(orderDetails())
-
-        }
+        if (!userInfo) {
+            navigate('/login')
+          }
+       
+        if (!singleorder ||  successDelivered || singleorder._id !== id) {
+           
+            dispatch({ type: ORDER_DELIVER_RESET})
+            dispatch(listOrderDetails(id))
+          }
    
-    },[dispatch,id])
+    },[dispatch,id,successDelivered,singleorder])
 //    typeof(singleorder) ==='undefined' ? console.log(singleorder) : (dispatch(listOrderDetails(id))
 // )  
     
@@ -42,7 +48,7 @@ const OrderScreen = () => {
         }
     }
     const delivered=(id)=>{dispatch(deliverOrder(id))
-        dispatch(listOrderDetails(id))
+        dispatch(listOrderDetails(id._id))
         dispatch(orderDetails())
         
     }
@@ -57,6 +63,10 @@ const OrderScreen = () => {
         //     </Card>
         // </Col>
         <Row>
+            <Helmet>
+            <title>Welcome to Superstore | Order </title>
+            
+        </Helmet>
             
         <Col md={8}>
         <Button type ='button' className='btn btn-light' onClick={Handler}  >Go Back</Button>

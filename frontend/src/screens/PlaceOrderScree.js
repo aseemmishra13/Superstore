@@ -7,6 +7,7 @@ import { addToCart,removeFromCart, saveShippingAddress } from '../actions/cartAc
 import { useLocation } from 'react-router-dom'
 import { orderConfirm, orderDetails, } from '../actions/orderActions'
 import Checkoutsteps from '../components/Checkoutsteps'
+import { Helmet } from 'react-helmet'
 
 const PlaceOrderScree = () => {
     const dispatch=useDispatch()
@@ -31,6 +32,10 @@ const PlaceOrderScree = () => {
     
     return (
         <>
+        <Helmet>
+            <title>Welcome to Superstore | Place Order </title>
+            
+        </Helmet>
         <Checkoutsteps step1 step2 step3 step4/>
         <Row>
             <Col md={8}>
