@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { deliverOrder, listOrderDetails, orderDetails } from '../actions/orderActions'
+import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { ORDER_DELIVER_RESET } from '../types/types'
 
@@ -13,27 +14,39 @@ const OrderScreen = () => {
     const dispatch =useDispatch()
     const {id} = useParams()
     const navigate=useNavigate()
-
-    const singleorder=useSelector(state=>state.getorder.singleorder)
-   const orderDelivered=useSelector(state=>state.orderDelivered)
-   const {loading:loadingDelivered,success:successDelivered}=orderDelivered
     const userLogin=useSelector(state=>state.userLogin)
     const {userInfo}=userLogin
+    const orderDetails=useSelector(state=>state.getorder)
+    const { singleorder, loading, error } = orderDetails
+   const orderDelivered=useSelector(state=>state.orderDelivered)
+   const {loading:loadingDelivered,success:successDelivered}=orderDelivered
+   
    // const {singleorder}=orderdetails
-   singleorder.itemsprice=singleorder.orderItems.reduce((acc,item)=>acc+item.qty*item.price,0).toFixed(2)
+  // singleorder.itemsprice=singleorder.orderItems.reduce((acc,item)=>acc+item.qty*item.price,0).toFixed(2)
+   if (!loading) {
+    //   Calculate prices
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2)
+    }
+
+    singleorder.itemsPrice = addDecimals(
+      singleorder.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    )
+  }
+
 
     useEffect(()=>{
-        if (!userInfo) {
-            navigate('/login')
-          }
-       
+        if(!userInfo)
+        {
+            navigate('/')
+        }
         if (!singleorder ||  successDelivered || singleorder._id !== id) {
            
             dispatch({ type: ORDER_DELIVER_RESET})
             dispatch(listOrderDetails(id))
           }
    
-    },[dispatch,id,successDelivered,singleorder])
+    },[dispatch,id,successDelivered,singleorder,userInfo])
 //    typeof(singleorder) ==='undefined' ? console.log(singleorder) : (dispatch(listOrderDetails(id))
 // )  
     
@@ -52,7 +65,11 @@ const OrderScreen = () => {
         dispatch(orderDetails())
         
     }
-    return (
+    return loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
         // <Col md={8} >
         //     {/* {singleorder.orderItems.map((item)=>{<h4>{item.name}</h4>})} */}
         //     <Card className='my-3 p-3 rounded'>
@@ -127,7 +144,7 @@ const OrderScreen = () => {
                 <ListGroup.Item>
                     <Row>
                         <Col>Items</Col>
-                        <Col>${singleorder.itemsprice}</Col>
+                        <Col>${singleorder.itemsPrice}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -155,6 +172,6 @@ const OrderScreen = () => {
         </Col>
     </Row>
     )
-}
+   }                     
 
 export default OrderScreen

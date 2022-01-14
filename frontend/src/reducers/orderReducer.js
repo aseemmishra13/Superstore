@@ -1,7 +1,7 @@
 import { GET_ORDER, GET_ORDER_DETAILS, GET_ORDER_RESET, ORDER_ALL_FAIL, ORDER_ALL_REQUEST, ORDER_ALL_SUCCESS, ORDER_DELIVER_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_RESET, ORDER_DELIVER_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_UPDATE_FAIL, ORDER_UPDATE_REQUEST, ORDER_UPDATE_SUCCESS } from "../types/types"
 
 
-export const orderReducer=(state={},action)=>{
+export const orderReducer=(state={allorders:[]},action)=>{
 const {type,payload}=action
 switch(type){
     case ORDER_UPDATE_REQUEST:
@@ -9,7 +9,7 @@ switch(type){
     case ORDER_UPDATE_SUCCESS:
         return{loading:false,orders:payload,success:true} 
     case GET_ORDER_DETAILS:
-        return{...state,loading:false,allorders:payload}     
+        return{loading:false,allorders:payload}     
        
     case ORDER_UPDATE_FAIL:
         return {loading:false,error:payload}
@@ -36,7 +36,7 @@ export const orderAllReducer=(state = { orders: [] },action)=>{
     }
     
     }
-export const getorderReducer=(state={singleorder:{}},action)=>{
+export const getorderReducer=(state={singleorder:[]},action)=>{
     const {type,payload}=action
     switch(type){
         case ORDER_UPDATE_REQUEST:
