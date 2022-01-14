@@ -38,6 +38,6 @@ const userInfofromStorage=localStorage.getItem('userInfo')?JSON.parse(localStora
 const initialState={cart:{cartItems:cartItemsfromStorage,shippingAddress:shippingAddressfromStorage,paymentMethod:paymentMethodfromStorage},userLogin:{userInfo:userInfofromStorage},getorder:{singleorder:orderItemfromStorage},order:{allorders:orderItemsfromStorage}}
 const middleware = [thunk]
 
-const store = createStore(reducer,initialState,composeWithDevTools(applyMiddleware(...middleware)))
+const store = createStore(reducer,initialState,applyMiddleware(...middleware))
 
 export default store
