@@ -127,7 +127,7 @@ const OrderScreen = () => {
                                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                                 </Col>
                                 <Col md={4}>
-                                    {item.qty} x ${item.price} = ${item.qty*item.price}
+                                    {item.qty} x ₹{item.price} = ₹{item.qty*item.price}
                                 </Col>
                             </Row>
                         </ListGroup.Item>))}
@@ -144,25 +144,25 @@ const OrderScreen = () => {
                 <ListGroup.Item>
                     <Row>
                         <Col>Items</Col>
-                        <Col>${singleorder.itemsPrice}</Col>
+                        <Col>₹{singleorder.itemsPrice}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
                         <Col>Shipping Price</Col>
-                        <Col>${singleorder.shippingprice}</Col>
+                        <Col>₹{singleorder.shippingprice}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
                         <Col>Tax Price</Col>
-                        <Col>${singleorder.taxprice}</Col>
+                        <Col>₹{singleorder.taxprice}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
                         <Col>Total Price</Col>
-                        <Col>${singleorder.totalprice}</Col>
+                        <Col>₹{singleorder.totalprice}</Col>
                     </Row>
                 </ListGroup.Item>
                 {userInfo.isAdmin&& !singleorder.isDelivered&&<Button type ='button' className='btn btn-light' onClick={()=>delivered(singleorder)}>Mark it as Delivered</Button>}

@@ -46,7 +46,7 @@ const CartScreen = () => {
                   <Col md={3}>
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
-                  <Col md={2}>${item.price}</Col>
+                  <Col md={2}>₹{item.price}</Col>
                   <Col md={2}>
                     <Form.Control
                       as='select'
@@ -84,7 +84,7 @@ const CartScreen = () => {
               <ListGroup variant='flush'>
                   <ListGroup.Item>
                   <h2>Subtotal ({cartItems.reduce((acc,cur)=>acc+cur.qty,0)})items</h2>
-                  ${cartItems.reduce((acc,cur)=>acc + cur.qty*cur.price,0).toFixed(2)}
+                  ₹{cartItems.reduce((acc,cur)=>acc + cur.qty*cur.price,0).toFixed(2)}
                   </ListGroup.Item>
               </ListGroup>
               <ListGroup.Item>

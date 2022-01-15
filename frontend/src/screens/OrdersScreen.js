@@ -43,7 +43,7 @@ const OrdersScreen = () => {
                         <th>Payment Method</th>
                         <th>Total price</th>
                         <th>Payment Status</th>
-                        <th>Delovery Status</th>
+                        <th>Delivery Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@ const OrdersScreen = () => {
                             <td>{order._id}</td>
                             <td>{order.name.name}</td>
                             <td>{order.shippingAddress.address},{order.shippingAddress.city}</td>
-                            <td>{order.totalprice}</td>
+                            <td>₹{order.totalprice}</td>
                             <td>{order.isPaid?'Paid':'not paid'}</td>
                             <td>{order.isDelivered?'Delivered':'not Delivered'}</td>
                             <td><LinkContainer to={`/orders/${order._id}`}><Button variant='light' className='btn-sm'><i className='fas fa-edit'></i></Button></LinkContainer></td>
