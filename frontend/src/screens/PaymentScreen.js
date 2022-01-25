@@ -66,7 +66,7 @@ const PaymentScreen = () => {
            
               <Col>
                     <Form.Check type = 'radio' label='Cash on Delivery' id='COD' name='paymentMethod' value = 'COD' checked onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
-                    <Form.Check type = 'radio' label='RazerPay' id='RazerPay' name='paymentMethod' value = 'RazerPay'  onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
+                    <Form.Check type = 'radio' label='RazerPay(Credit Card/Debit Card/UPI/NetBanking/Wallets)' id='RazerPay' name='paymentMethod' value = 'RazerPay'  onChange={(e)=>setPaymentMethod(e.target.value)}></Form.Check>
               
               </Col>
               </Form.Group>
