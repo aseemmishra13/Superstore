@@ -8,6 +8,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import path from 'path'
 import morgan from 'morgan'
+import Razorpay from 'razorpay'
 
 dotenv.config()
 
@@ -36,6 +37,15 @@ if (process.env.NODE_ENV==='production'){
 app.get('/',(req,res)=>{
     res.send('api is running')
 })}
+var instance = new Razorpay({  key_id: 'rzp_test_nFYsuQDo8Smdp',  key_secret: 'Wz6SECxmdRPKONOPAcKuFeFD',});
+var options = {
+    amount: 50000,  // amount in the smallest currency unit
+    currency: "INR",
+    receipt: "order_rcptid_11"
+  };
+  instance.orders.create(options, function(err, order) {
+    console.log(order);
+  });
 
 app.use(notFound)
 app.use(errorHandler)

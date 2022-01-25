@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import Orders from '../models/ordersModel.js'
 import Product from '../models/productModel.js'
+import Razorpay from 'razorpay'
 
 const orderProduct=asyncHandler(async(req,res)=>{
 
@@ -49,10 +50,10 @@ const UpdateOrderToPaid=asyncHandler(async(req,res)=>{
         order.isPaid=true
         order.paidAt=Date.now()
         order.paymentResult={
-            id:req.body.id,
-            status:req.body.status,
-            update_time:req.update_time,
-            email_address:req.body.payer.email_address
+     
+            razorpay_payment_id: req.body.razorpay_payment_id,
+            razorpay_order_id: req.body.razorpay_order_id,
+            razorpay_signature: req.body.razorpay_signature
 
         }
         const updatedOrder=await order.save()
@@ -79,5 +80,34 @@ else{
 }
 
 })
+const OrderPaid=asyncHandler(async(req,res)=>{
+    var instance = new Razorpay({  key_id: process.env.key_id,  key_secret: process.env.key_secret,});
+    const order = await Orders.findById(req.params.id)
+    const payment_capture = 1
+	const amount = order.totalprice
+	const currency = 'INR'
 
-export {orderProduct,getOrder,getOrderById,UpdateOrderToPaid,getAllOrder,UpdateOrderToDelivered}
+	const options = {
+		amount: amount * 100,
+		currency,
+		receipt: req.params.id,
+		payment_capture
+	}
+
+	try {
+		const response = await instance.orders.create(options)
+		console.log(response)
+		res.json({
+			id: response.id,
+			currency: response.currency,
+			amount: response.amount
+		})
+	} catch (error) {
+		console.log(error)
+	}
+
+
+
+})
+
+export {orderProduct,getOrder,getOrderById,UpdateOrderToPaid,getAllOrder,UpdateOrderToDelivered,OrderPaid}
