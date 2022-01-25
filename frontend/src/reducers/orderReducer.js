@@ -64,6 +64,7 @@ export const getorderReducer=(state={singleorder:[]},action)=>{
                 return{loading:true}
               
             case ORDER_PAY_SUCCESS:
+                
                 return{loading:false,success:true}       
             case ORDER_PAY_FAIL:
                 return {loading:false,error:payload}
