@@ -84,7 +84,7 @@ const OrderPaid=asyncHandler(async(req,res)=>{
     var instance = new Razorpay({  key_id: process.env.key_id,  key_secret: process.env.key_secret,});
     const order = await Orders.findById(req.params.id)
     const payment_capture = 1
-	const amount = order.totalprice
+	const amount = 499
 	const currency = 'INR'
 
 	const options = {

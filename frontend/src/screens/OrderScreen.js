@@ -94,7 +94,7 @@ const OrderScreen = () => {
     
     
        const {data} = await axios.post(`/api/orders/${singleorder._id}/razerpay`)
-       
+       console.log(data);
         var options = {
             "key": process.env.key_id, // Enter the Key ID generated from the Dashboard
             "amount": data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
